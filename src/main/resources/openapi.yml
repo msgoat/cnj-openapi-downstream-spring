@@ -1,0 +1,38 @@
+openapi: 3.0.1
+info:
+  title: "${project.artifactId}"
+  contact:
+    url: "michael.theis@msg.group" # TODO replace with variable "${openapi.contact.url}"
+  version: "${revision}"
+servers:
+  - url: "https://train2023-dev.k8s.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-openapi-downstream-spring" # TODO: replace with variable "${openapi.servers.default.url}"
+paths:
+  /api/v1/grantedPermissions:
+    get:
+      tags:
+        - granted-permissions-controller
+      description: returns all permissions granted to the currently authenticated
+        user
+      operationId: getPermissionsByCurrentUser
+      responses:
+        "200":
+          description: body contains array of all granted permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrantedPermission'
+      security:
+        - oidc:
+            - openid
+            - microprofile-jwt
+components:
+  schemas:
+    GrantedPermission:
+      type: object
+      properties:
+        permission:
+          type: string
+  securitySchemes:
+    oidc:
+      type: openIdConnect
+      openIdConnectUrl: "https://oidc.cloudtrain.aws.msgoat.eu/realms/cloudtrain"
