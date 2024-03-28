@@ -2,8 +2,19 @@ package group.msg.at.cloud.cloudtrain.core.entity;
 
 public class GrantedPermission {
 
-    private final String permission;
+    private String permission;
 
+    /**
+     * Default constructor for JSON binding only.
+     */
+    public GrantedPermission() {
+    }
+
+    /**
+     * Special constructor for application use.
+     *
+     * @param permission
+     */
     public GrantedPermission(Permission permission) {
         this.permission = permission.getPermissionName();
     }
